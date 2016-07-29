@@ -61,8 +61,8 @@ const styles = {
   },
   cards: {
     textAlign: 'center',
-    marginLeft: '10%',
-    width: '80%',
+    marginLeft: '20%',
+    width: '60%',
   },
   left: {
     textAlign: 'left',
