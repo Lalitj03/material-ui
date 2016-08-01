@@ -1,7 +1,3 @@
-/**
- * In this file, we create a React component
- * which incorporates components providedby material-ui.
- */
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -51,7 +47,6 @@ const AppBarExampleIcon = () => (
     iconClassNameRight="muidocs-icon-navigation-expand-more"
   />
 );
-
 
 const styles = {
   container: {

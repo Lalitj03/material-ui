@@ -1,69 +1,109 @@
-// Load the Visualization API and the corechart package.
-google.charts.load('current', {'packages':['corechart']});
-
-// Set a callback to run when the Google Visualization API is loaded.
-google.charts.setOnLoadCallback(drawChart);
+google.charts.load('current', {'packages':['corechart','line']});
 google.charts.setOnLoadCallback(drawpieChart);
+google.charts.setOnLoadCallback(drawhistogramChart);
+google.charts.setOnLoadCallback(drawlineChart);
+google.charts.setOnLoadCallback(drawbarChart);
+google.charts.setOnLoadCallback(drawhistogram2Chart);
 
-function drawChart() {
+function drawbarChart() {
+  var jsonbarData = $.ajax({
+      url: "http://localhost:3000/app/jsonbarData.json",
+      dataType: "json",
+      async: false
+      }).responseText;
 
-  // Create the data table.
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Season');
-  data.addColumn('number', 'Goals');
-  data.addRows([
-    ['2000-01', 13],
-    ['2001-02', 21],
-    ['2002-03', 21],
-    ['2003-04', 21],
-    ['2004-05', 18],
-    ['2005-06', 28],
-    ['2006-07', 20],
-    ['2007-08', 22],
-    ['2008-09', 31],
-    ['2009-10', 28],
-    ['2010-11', 23],
-    ['2011-12', 9],
-    ['2012-13', 16],
-    ['2013-14', 15],
-    ['2014-15', 2],
-    ['2015-16', 18],
-    ['2016-17', 13]
-  ]);
-
-  var barchart_options = {title:'Barchart: How Much Pizza I Ate Last Night',
-                 width:400,
-                 height:300,
+  var data = new google.visualization.DataTable(jsonbarData);
+  var barchart_options = {title:'David Villa Goals Scored Per Season',
+                 width:600,
+                 height:600,
                  legend: 'none'};
   var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
   barchart.draw(data, barchart_options);
 }
 
-
 function drawpieChart() {
+  var jsonpieData = $.ajax({
+      url: "http://localhost:3000/app/jsonpieData.json",
+      dataType: "json",
+      async: false
+      }).responseText;
 
-  // Create the data table.
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Clubs');
-  data.addColumn('number', 'Goals');
-  data.addRows([
-    ['Sporting Gijón B', 14],
-    ['Sporting Gijón', 41],
-    ['Zaragoza', 39],
-    ['Valencia', 129],
-    ['Barcelona', 48],
-    ['Atlético Madrid', 15],
-    ['Melbourne City (loan)', 2],
-    ['New York City', 31]
-  ]);
+  var data = new google.visualization.DataTable(jsonpieData);
 
+  console.log(data);
+  var options = {'title':'David Villa Goals Scored For Clubs',
+                 'width':600,
+                 'height':400,
+                  is3D: true,
+                  slices: {  4: {offset: 0.2},
+                             6: {offset: 0.3},
+                             1: {offset: 0.4},
+                             3: {offset: 0.5},
+                  },
+                };
 
-  // Set chart options
-  var options = {'title':'Goals scored per season',
-                 'width':400,
-                 'height':300};
-
-  // Instantiate and draw our chart, passing in some options.
   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
   chart.draw(data, options);
+}
+
+function drawhistogramChart() {
+  var jsonhistogramData = $.ajax({
+      url: "http://localhost:3000/app/Histogram_data.json",
+      dataType: "json",
+      async: false
+      }).responseText;
+  var data = new google.visualization.DataTable(jsonhistogramData);
+
+  var options = {
+    title: 'Sales by the Year',
+    width: 600,
+    height:400,
+    legend: { position: 'none' },
+  };
+
+  var chart = new google.visualization.Histogram(document.getElementById('histogram'));
+  chart.draw(data, options);
+}
+
+function drawlineChart() {
+  var jsonlineData = $.ajax({
+      url: "http://localhost:3000/app/fdata.json",
+      dataType: "json",
+      async: false
+      }).responseText;
+  var data = new google.visualization.DataTable(jsonlineData);
+
+  var options = {
+    title: 'Company Performance',
+    width: 600,
+    height: 400,
+    curveType: 'function',
+    legend: { position: 'bottom' },
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+  chart.draw(data, options);
+}
+
+function drawhistogram2Chart() {
+  var jsonhistogram2Data = $.ajax({
+      url: "http://localhost:3000/app/Histogram_data2.json",
+      dataType: "json",
+      async: false
+      }).responseText;
+  var data = new google.visualization.DataTable(jsonhistogram2Data);
+
+var options = {
+  title: 'Company Sales',
+  legend: { position: 'none' },
+  colors: ['#e7711c'],
+  //  histogram: { lastBucketPercentile: 5 },
+  vAxis: { scaleType: 'mirrorLog' },
+  histogram: { bucketSize: 100000 }
+};
+
+var chart = new google.visualization.Histogram(document.getElementById('histogram2'));
+
+chart.draw(data, options);
 }
